@@ -1,0 +1,3 @@
+live-server is not working because cannot load es6 modules in a local environment. will need to add webpack for that
+https://appdividend.com/2017/03/28/beginners-guide-to-setup-es6-development-environment/
+http://dplatz.de/blog/2019/es6-bare-imports.html
