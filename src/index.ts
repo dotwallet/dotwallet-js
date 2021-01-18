@@ -1,16 +1,21 @@
-import { LoginButton } from './lib/login';
+import * as _ from 'lodash';
 
-export class DotWallet {
-  login = LoginButton;
-  test = 'test';
+function component() {
+	const element = document.createElement('div');
+
+	element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+	return element;
 }
 
-export {};
-declare global {
-  interface Window {
-    dotwallet: DotWallet;
-  }
+class DotWallet {
+	test = 'Hello DotWallet';
+	testFunc = () => {
+		console.log('hi');
+	};
+	testAppend = () => {
+		document.body.appendChild(component());
+	};
 }
-console.log('module loaded!');
-window.dotwallet = new DotWallet();
-export default DotWallet;
+
+export default new DotWallet();
