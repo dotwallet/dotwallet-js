@@ -14,7 +14,9 @@
     "noImplicitAny": true,
     "pretty": true
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+
+  "include": ["src/**/*.ts", "src/custom.d.ts", "src/assets"],
+  "plugins": [{
+    "name": "typescript-lit-html-plugin"
+  }]
 }

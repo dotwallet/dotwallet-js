@@ -1,21 +1,8 @@
-import * as _ from 'lodash';
-
-function component() {
-	const element = document.createElement('div');
-
-	element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-	return element;
-}
+import { login } from './features/login';
 
 class DotWallet {
 	test = 'Hello DotWallet';
-	testFunc = () => {
-		console.log('hi');
-	};
-	testAppend = () => {
-		document.body.appendChild(component());
-	};
+	login = login;
 }
 
 export default new DotWallet();

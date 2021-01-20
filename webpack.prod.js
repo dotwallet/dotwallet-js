@@ -1,4 +1,5 @@
 const path = require('path');
+
 function createConfig(target) {
 	return {
 		mode: 'production',
@@ -11,6 +12,10 @@ function createConfig(target) {
 					use: 'ts-loader',
 					exclude: /node_modules/,
 				},
+				{
+					test: /\.svg/,
+					type: 'asset/resource',
+				},
 			],
 		},
 		resolve: {
@@ -21,21 +26,18 @@ function createConfig(target) {
 			path: path.resolve(__dirname, 'dist'),
 			library: 'dotwallet',
 			libraryTarget: target,
+			assetModuleFilename: 'assets/[name][ext]',
 		},
-		// externals: {
-		// 	lodash: {
-		// 		commonjs: 'lodash',
-		// 		commonjs2: 'lodash',
-		// 		amd: 'lodash',
-		// 		root: '-',
-		// 	},
-		// },
+		externals: ['typescript-lit-html-plugin'],
+		plugins: [
+			//
+		],
 	};
 }
 
 module.exports = [
-	createConfig('var'),
-	createConfig('commonjs2'),
-	createConfig('amd'),
+	// createConfig('var'),
+	// createConfig('commonjs2'),
+	// createConfig('amd'),
 	createConfig('umd'),
 ];

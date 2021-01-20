@@ -5,12 +5,17 @@ function createConfig(target) {
 		mode: 'development',
 		entry: './src/index.ts',
 		devtool: 'inline-source-map',
+		experiments: { asset: true },
 		module: {
 			rules: [
 				{
 					test: /\.tsx?$/,
 					use: 'ts-loader',
 					exclude: /node_modules/,
+				},
+				{
+					test: /\.svg/,
+					type: 'asset/resource',
 				},
 			],
 		},
@@ -22,15 +27,9 @@ function createConfig(target) {
 			path: path.resolve(__dirname, 'dist'),
 			library: 'dotwallet',
 			libraryTarget: target,
+			assetModuleFilename: 'assets/[name][ext]',
 		},
-		// externals: {
-		// 	lodash: {
-		// 		commonjs: 'lodash',
-		// 		commonjs2: 'lodash',
-		// 		amd: 'lodash',
-		// 		root: '-',
-		// 	},
-		// },
+		externals: ['typescript-lit-html-plugin'],
 		plugins: [
 			new ForkTsCheckerWebpackPlugin(), // run TSC on a separate thread
 		],
@@ -39,8 +38,8 @@ function createConfig(target) {
 }
 
 module.exports = [
-	createConfig('var'),
-	createConfig('commonjs2'),
-	createConfig('amd'),
+	// createConfig('var'),
+	// createConfig('commonjs2'),
+	// createConfig('amd'),
 	createConfig('umd'),
 ];
