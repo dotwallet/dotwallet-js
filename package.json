@@ -13,9 +13,9 @@
     "npm": ">=5"
   },
   "scripts": {
-    "build:main": "webpack --config ./webpack.prod.js",
+    "build:main": "webpack --config ./webpack.prod.js --env BUILD_TYPE=main",
     "build:module": "tsc -p tsconfig.module.json",
-    "build": "run-p build:*",
+    "build": "run-s build:*",
     "prebuild": "rimraf dist",
     "main:watch": "webpack --config ./webpack.dev.js",
     "main:dev": "live-server --open=/examples/as-script-tag",
