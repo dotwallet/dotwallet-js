@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
-		<script src="../../dist/dotwallet.umd.js"></script>
-	</head>
-	<body>
-		<p>DotWallet login:</p>
-		<div id="login-button"></div>
-		<script>
-			const YOUR_SERVER_URL = 'http://192.168.1.112:3333/';
-			const YOUR_PAGE_URL = window.location.href;
-			const DEV_WALLET_ADDRESS = '1L4eTJidJjVajv4caJkmQyTFRXBnoN4Pap';
-			const YOUR_CLIENT_ID = '89d001043806644fdb4fb14099ff6be5';
-			const DotWallet = dotwallet.default;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/dotwallet.umd.js"></script>
+  </head>
+  <body>
+    <p>DotWallet login:</p>
+    <div id="login-button"></div>
+    <p>DotWallet Pay:</p>
+    <div id="pay-button"></div>
 
-			DotWallet.login('login-button', {
-				clientID: YOUR_CLIENT_ID,
-				redirectURI: YOUR_PAGE_URL,
-				lang: 'zh',
-				log: true,
-			});
-			DotWallet.loginRedirect({
-				authEndpoint: YOUR_SERVER_URL + 'auth',
-				log: true,
-				successCallback: (response) => {
-					alert(JSON.stringify(response));
-				},
-				failureCallback: (error) => {
-					alert(JSON.stringify(error));
-				},
-			});
-		</script>
-	</body>
+    <script>
+      const YOUR_SERVER_URL = "http://192.168.1.129:3000/";
+      const YOUR_PAGE_URL = window.location.href;
+      const DEV_WALLET_ADDRESS = "1L4eTJidJjVajv4caJkmQyTFRXBnoN4Pap";
+      const YOUR_CLIENT_ID = "89d001043806644fdb4fb14099ff6be5";
+      const DotWallet = dotwallet.default;
+
+      DotWallet.loginButton("login-button", {
+        clientID: YOUR_CLIENT_ID,
+        redirectURI: YOUR_PAGE_URL,
+        lang: "zh",
+        log: true,
+      });
+      DotWallet.loginRedirect({
+        authEndpoint: YOUR_SERVER_URL + "auth",
+        log: true,
+        successCallback: (response) => {
+          alert(JSON.stringify(response));
+        },
+        failureCallback: (error) => {
+          alert(JSON.stringify(error));
+        },
+      });
+      DotWallet.payButton("pay-button", {
+        productName: "Bananas",
+        orderAmount: 900,
+        receiveAddress: DEV_WALLET_ADDRESS,
+        createOrderEndpoint: YOUR_SERVER_URL + "create-order",
+        redirectURI: YOUR_PAGE_URL,
+        log: true,
+        successCallback: (response) => {
+          alert(JSON.stringify(response));
+        },
+        failureCallback: (error) => {
+          alert(JSON.stringify(error));
+        },
+      });
+    </script>
+  </body>
 </html>
