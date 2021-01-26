@@ -23,6 +23,27 @@ export interface AutoPayOptions {
   failureCallback?: (error: any) => any;
 }
 
+export function autoPay(elementID: string, options: AutoPayOptions) {
+  if (options.log) console.log({ options });
+  // set defaults:
+  if (!options.lang) options.lang = "en";
+  if (!options.coinType) options.coinType = "BSV";
+  if (!options.duration) options.duration = 2;
+
+  const valid = validate(options);
+  if (valid !== "valid") {
+    if (options.log) console.log(valid);
+    return;
+  }
+  const buttonID = `dotwallet-autopay${uuid().slice(0, 10)}`;
+
+  render(
+    template(buttonID, styles(buttonID, options)),
+    document.getElementById(elementID)
+  );
+  const button = document.getElementById(buttonID);
+  countDown(button, submit, options);
+}
 const validate = (options: AutoPayOptions): string => {
   try {
     let result = "validator: \n";
@@ -62,122 +83,77 @@ const validate = (options: AutoPayOptions): string => {
     return JSON.stringify(error);
   }
 };
-
-export function autoPay(elementID: string, options: AutoPayOptions) {
-  if (options.log) console.log({ options });
-  if (!options.lang) options.lang = "en";
-  if (!options.coinType) options.coinType = "BSV";
-  if (!options.duration) options.duration = 2;
-
-  const valid = validate(options);
-  if (valid !== "valid") {
-    if (options.log) console.log(valid);
-    return;
-  }
-  const template = (buttonID: string, style: string) => html`
-    <div id="dotwallet-autopay${buttonID}"></div>
-    <style>
-      ${style}
-    </style>
-  `;
-  const element = document.getElementById(elementID);
-  const buttonID = uuid().slice(0, 10);
-  // style template above does not accept string interpolation with ${ }
-  const style = `
-	#dotwallet-autopay${buttonID} {
-		width: ${options.lang === "zh" ? "152" : "138"}px;
-		height: 48px;
-		cursor: pointer;
-		box-shadow: 0 0 10px gray;
-		background: url(${options.lang === "en" ? engButton : zhButton})
-	}
-	#dotwallet-autopay${buttonID}:hover {
-		box-shadow: 0 0 10px rgb(40, 40, 40);
-	}
-	#dotwallet-autopay${buttonID}[data-status="default"] {
-    cursor: pointer;
-    transform: scale(1);
-    transition-duration: 0.2s;
-  }
-  #dotwallet-autopay${buttonID}[data-status="counting"] {
-    cursor: progress;
-    transition-duration: 3s;
-    transform: scale(0.7);
-  }
-  #dotwallet-autopay${buttonID}[data-status="executing"] {
-    transform: scale(1);
-    transition-duration: 0.2s;
-    opacity: 0.7;
-    cursor: denied;
-  }`;
-  const submit = (options: AutoPayOptions) => {
-    const orderData: any = {
-      out_order_id: uuid(),
-      user_id: options.userID,
-      coin_type: options.coinType,
-      to: [
-        {
-          type: "address",
-          content: options.receiveAddress,
-          amount: options.orderAmount,
-        },
-      ],
-      product: {
-        id: uuid(),
-        name: options.productName,
-        detail: options.productDetail,
+const submit = (options: AutoPayOptions) => {
+  const orderData: any = {
+    out_order_id: uuid(),
+    user_id: options.userID,
+    coin_type: options.coinType,
+    to: [
+      {
+        type: "address",
+        content: options.receiveAddress,
+        amount: options.orderAmount,
       },
-    };
-    if (options.notifyURL) orderData.notify_url = options.notifyURL;
-    if (options.subject) orderData.subject = options.subject;
-    if (options.log) console.log("order data:\n", orderData);
-    const fetchOptions: any = {
-      method: "POST",
-      body: JSON.stringify(orderData),
-    };
-    if (options.fetchHeaders)
-      fetchOptions.headers = {
-        ...options.fetchHeaders,
-      };
-    else {
-      fetchOptions.headers = {
-        "Content-type": "application/json; charset=UTF-8",
-      };
-    }
-    if (options.fetchOptions)
-      for (const option in options.fetchOptions)
-        fetchOptions[option] = options.fetchOptions[option];
-    if (options.log) console.log("fetch options:\n", options);
-
-    fetch(options.autopayEndpoint, fetchOptions)
-      .then((orderResponse) => orderResponse.json())
-      .then((orderData) => {
-        if (options.log) console.log("order response data:\n", orderData);
-        if (orderData.txid) {
-          if (options.log) console.log({ orderData });
-          if (options.successCallback) options.successCallback(orderData);
-        } else {
-          if (options.log) console.log({ orderData });
-          if (options.failureCallback) options.failureCallback(orderData);
-        }
-      })
-      .catch((error) => {
-        if (options.log) console.log({ error });
-        if (options.failureCallback) options.failureCallback(error);
-      });
+    ],
+    product: {
+      id: uuid(),
+      name: options.productName,
+      detail: options.productDetail,
+    },
   };
-  render(template(buttonID, style), element);
-  const button = document.getElementById(`dotwallet-autopay${buttonID}`);
+  if (options.notifyURL) orderData.notify_url = options.notifyURL;
+  if (options.subject) orderData.subject = options.subject;
+  if (options.log) console.log("order data:\n", orderData);
+  const fetchOptions: any = {
+    method: "POST",
+    body: JSON.stringify(orderData),
+  };
+  if (options.fetchHeaders)
+    fetchOptions.headers = {
+      ...options.fetchHeaders,
+    };
+  else {
+    fetchOptions.headers = {
+      "Content-type": "application/json; charset=UTF-8",
+    };
+  }
+  if (options.fetchOptions)
+    for (const option in options.fetchOptions)
+      fetchOptions[option] = options.fetchOptions[option];
+  if (options.log) console.log("fetch options:\n", options);
 
+  fetch(options.autopayEndpoint, fetchOptions)
+    .then((orderResponse) => orderResponse.json())
+    .then((orderData) => {
+      if (options.log) console.log("order response data:\n", orderData);
+      if (orderData.txid) {
+        if (options.log) console.log({ orderData });
+        if (options.successCallback) options.successCallback(orderData);
+      } else {
+        if (options.log) console.log({ orderData });
+        if (options.failureCallback) options.failureCallback(orderData);
+      }
+    })
+    .catch((error) => {
+      if (options.log) console.log({ error });
+      if (options.failureCallback) options.failureCallback(error);
+    });
+};
+const countDown = (
+  button: HTMLElement,
+  callback: (data: any) => any,
+  options: AutoPayOptions
+) => {
   button.dataset.status = "default";
   button.dataset.counter = "0";
   let timer: NodeJS.Timeout;
+
   const execute = () => {
     button.dataset.status = "executing";
     clearTimeout(timer);
     setTimeout((_) => {
       try {
-        submit(options);
+        callback(options);
       } catch (error) {
         if (options.log) console.log("error", error);
       }
@@ -185,7 +161,6 @@ export function autoPay(elementID: string, options: AutoPayOptions) {
     }, 100);
     return;
   };
-
   const countAndConfirm = () => {
     if (parseInt(button.dataset.counter) >= options.duration) execute();
     timer = setTimeout(() => {
@@ -230,4 +205,39 @@ export function autoPay(elementID: string, options: AutoPayOptions) {
   button.addEventListener("mouseup", (e) => {
     cancel();
   });
+};
+const template = (buttonID: string, style: string) => html`
+  <div id="${buttonID}"></div>
+  <style>
+    ${style}
+  </style>
+`;
+
+// style template does not accept string interpolation with ${ }
+const styles = (buttonID: string, options: AutoPayOptions) => `
+#${buttonID} {
+  width: ${options.lang === "zh" ? "152" : "138"}px;
+  height: 48px;
+  cursor: pointer;
+  box-shadow: 0 0 10px gray;
+  background: url(${options.lang === "en" ? engButton : zhButton})
 }
+#${buttonID}:hover {
+  box-shadow: 0 0 10px rgb(40, 40, 40);
+}
+#${buttonID}[data-status="default"] {
+  cursor: pointer;
+  transform: scale(1);
+  transition-duration: 0.2s;
+}
+#${buttonID}[data-status="counting"] {
+  cursor: progress;
+  transition-duration: 3s;
+  transform: scale(0.7);
+}
+#${buttonID}[data-status="executing"] {
+  transform: scale(1);
+  transition-duration: 0.2s;
+  opacity: 0.7;
+  cursor: denied;
+}`;
