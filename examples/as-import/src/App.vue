@@ -6,6 +6,8 @@
     <div id="login-redirect"></div>
     <p>order pay</p>
     <div id="pay-button"></div>
+    <p>auto pay</p>
+    <div id="autopay-button"></div>
   </div>
 </template>
 
@@ -16,11 +18,11 @@ import {
   YOUR_PAGE_URL,
   YOUR_CLIENT_ID,
   DEV_WALLET_ADDRESS,
+  DEV_USER_ID,
 } from "./config";
 export default {
   name: "App",
   mounted() {
-    console.log("dotwallet.test", dotwallet.test);
     dotwallet.loginButton("login-button", {
       clientID: YOUR_CLIENT_ID,
       redirectURI: YOUR_PAGE_URL,
@@ -43,6 +45,20 @@ export default {
       receiveAddress: DEV_WALLET_ADDRESS,
       createOrderEndpoint: YOUR_SERVER_URL + "create-order",
       redirectURI: YOUR_PAGE_URL,
+      log: true,
+      successCallback: (response) => {
+        alert(JSON.stringify(response));
+      },
+      failureCallback: (error) => {
+        alert(JSON.stringify(error));
+      },
+    });
+    dotwallet.autoPayButton("autopay-button", {
+      userID: DEV_USER_ID,
+      productName: "Bananas",
+      orderAmount: 900,
+      receiveAddress: DEV_WALLET_ADDRESS,
+      autopayEndpoint: YOUR_SERVER_URL + "autopay",
       log: true,
       successCallback: (response) => {
         alert(JSON.stringify(response));
