@@ -1,5 +1,5 @@
 {
-  "name": "dotwallet-js",
+  "name": "@dotwallet/js",
   "version": "0.0.1",
   "description": "a library for using dotwallet functions",
   "main": "dist/dotwallet.var.js",
@@ -23,7 +23,8 @@
     "module:dev": "cd ./examples/as-import && yarn serve",
     "dev:main": "run-p main:*",
     "dev:module": "run-p module:*",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pub": "yarn publish --access=public"
   },
   "repository": {
     "type": "git",
