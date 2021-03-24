@@ -27,8 +27,8 @@ dotwallet.loginButton("login-button", {
 dotwallet.loginRedirect({
     authEndpoint: YOUR_SERVER_URL_AUTH_ENDPOINT,
     successCallback: (data) => {
-        // do something with the data, e.g. save in localStorage.
-      },
+    // do something with the data, e.g. save in localStorage.
+    },
 });
 
 // ---payments---
