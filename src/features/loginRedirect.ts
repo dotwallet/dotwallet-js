@@ -62,12 +62,14 @@ export function loginRedirect({
 		fetch(authEndpoint, options)
 			.then((res) => res.json())
 			.then((authResponse) => {
-				if (log) console.log('authResponse', JSON.stringify(authResponse));
-				successCallback(authResponse);
+				if (log) console.log('authResponse', authResponse);
+				if ('error' in authResponse)
+					failureCallback(JSON.stringify(authResponse));
+				else successCallback(authResponse);
 			})
 			.catch((error) => {
 				failureCallback(JSON.stringify(error));
-				if (log) console.log('error: ', JSON.stringify(error));
+				if (log) console.log('authResponse error: ', JSON.stringify(error));
 			});
 	}
 	window.addEventListener('load', () => {

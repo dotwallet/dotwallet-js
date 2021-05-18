@@ -1,4 +1,4 @@
-# dotwallet-js
+# @dotwallet/js
 
 Quickly add DotWallet functionality to your JavaScript front-end application or website.
 
@@ -59,7 +59,7 @@ cd ../../
 # you need to create a symlink to use local files for the vue app test
 yarn build
 npm link
-cd ./examples/as-import/ && npm link dotwallet-js
+cd ./examples/as-import/ && npm link @dotwallet/js
 
 # back to the root
 cd ../../

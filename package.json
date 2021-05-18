@@ -1,66 +1,66 @@
 {
-  "name": "@dotwallet/js",
-  "version": "0.1.0",
-  "description": "a library for using dotwallet functions",
-  "main": "dist/dotwallet.var.js",
-  "module": "dist/module/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "engines": {
-    "node": ">=8",
-    "npm": ">=5"
-  },
-  "scripts": {
-    "build:main": "webpack --config ./webpack.prod.js --env BUILD_TYPE=main",
-    "build:module": "tsc -p tsconfig.module.json",
-    "build": "run-s build:*",
-    "prebuild": "rimraf dist",
-    "main:watch": "webpack --config ./webpack.dev.js",
-    "main:dev": "live-server --open=/examples/as-script-tag",
-    "module:watch": "tsc -p tsconfig.module.json -w",
-    "module:dev": "cd ./examples/as-import && yarn serve",
-    "dev:main": "run-p main:*",
-    "dev:module": "run-p module:*",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "pub": "yarn publish --access=public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dotwallet/dotwallet-js.git"
-  },
-  "keywords": [
-    "BSV",
-    "bitcoin",
-    "cryptocurrency"
-  ],
-  "author": "DotWallet Team",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dotwallet/dotwallet-js/issues"
-  },
-  "homepage": "https://github.com/dotwallet/dotwallet-js#readme",
-  "dependencies": {
-    "lit-html": "^1.3.0",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.167",
-    "@types/uuid": "^8.3.0",
-    "eslint": "^7.18.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-vue": "^7.0.0-beta.4",
-    "fork-ts-checker-webpack-plugin": "^6.1.0",
-    "live-server": "^1.2.1",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
-    "svg-inline-loader": "^0.8.2",
-    "ts-loader": "^8.0.14",
-    "typescript": "^4.1.3",
-    "typescript-lit-html-plugin": "^0.9.0",
-    "webpack": "^5.14.0",
-    "webpack-cli": "^4.3.1"
-  }
+	"name": "@dotwallet/js",
+	"version": "1.1.1",
+	"description": "a library for using dotwallet functions",
+	"main": "dist/dotwallet.var.js",
+	"module": "dist/module/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"engines": {
+		"node": ">=8",
+		"npm": ">=5"
+	},
+	"scripts": {
+		"build:main": "webpack --config ./webpack.prod.js --env BUILD_TYPE=main",
+		"build:module": "tsc -p tsconfig.module.json",
+		"build": "run-s build:*",
+		"prebuild": "rimraf dist",
+		"main:watch": "webpack --config ./webpack.dev.js",
+		"main:dev": "live-server --open=/examples/as-script-tag",
+		"module:watch": "tsc -p tsconfig.module.json -w",
+		"module:dev": "cd ./examples/as-import && yarn serve",
+		"dev:main": "run-p main:*",
+		"dev:module": "run-p module:*",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"pub": "yarn publish --access=public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dotwallet/dotwallet-js.git"
+	},
+	"keywords": [
+		"BSV",
+		"bitcoin",
+		"cryptocurrency"
+	],
+	"author": "DotWallet Team",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/dotwallet/dotwallet-js/issues"
+	},
+	"homepage": "https://github.com/dotwallet/dotwallet-js#readme",
+	"dependencies": {
+		"lit-html": "^1.3.0",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.167",
+		"@types/uuid": "^8.3.0",
+		"eslint": "^7.18.0",
+		"eslint-config-prettier": "^7.1.0",
+		"eslint-plugin-vue": "^7.0.0-beta.4",
+		"fork-ts-checker-webpack-plugin": "^6.1.0",
+		"live-server": "^1.2.1",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^2.2.1",
+		"rimraf": "^3.0.2",
+		"svg-inline-loader": "^0.8.2",
+		"ts-loader": "^8.0.14",
+		"typescript": "^4.1.3",
+		"typescript-lit-html-plugin": "^0.9.0",
+		"webpack": "^5.14.0",
+		"webpack-cli": "^4.3.1"
+	}
 }
