@@ -1,6 +1,6 @@
 {
 	"name": "@dotwallet/js",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "a library for using dotwallet functions",
 	"main": "dist/dotwallet.var.js",
 	"module": "dist/module/index.js",
