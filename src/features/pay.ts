@@ -77,7 +77,7 @@ export function pay(elementID: string, options: PayOptions) {
 		return;
 	}
 	const template = (buttonID: string, style: string) => html`
-		<div id="dotwallet-pay${buttonID}"></div>
+		<button id="dotwallet-pay${buttonID}"></button>
 		<style>
 			${style}
 		</style>
@@ -91,7 +91,11 @@ export function pay(elementID: string, options: PayOptions) {
 		height: 48px;
 		cursor: pointer;
 		box-shadow: 0 0 10px gray;
-		background: url(${options.lang === 'en' ? engButton : zhButton})
+		border: none;
+		-webkit-appearance: none;
+    -moz-appearance: none;
+		background: url(${options.lang === 'en' ? engButton : zhButton});
+		transition: box-shadow 300ms ease-in-out;
 	}
 	#dotwallet-pay${buttonID}:hover {
 		box-shadow: 0 0 10px rgb(40, 40, 40);
