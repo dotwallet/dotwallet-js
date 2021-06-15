@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div id="app">
     <p>login</p>
@@ -12,7 +11,7 @@
 </template>
 
 <script>
-import dotwallet from "dotwallet-js";
+import dotwallet from "@dotwallet/js/dist/module/index.js";
 import {
   YOUR_SERVER_URL,
   YOUR_PAGE_URL,
@@ -77,7 +76,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
